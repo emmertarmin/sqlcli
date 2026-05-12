@@ -59,9 +59,16 @@ export function formatQueryResult(result: QueryExecutionResult, outputFormat: Ou
     return JSON.stringify(result, null, 2);
   }
 
-  const firstRecordset = result.recordset ?? [];
-  if (firstRecordset.length > 0) {
-    console.table(firstRecordset);
+  const recordsets = result.recordsets.length > 0
+    ? result.recordsets
+    : result.recordset.length > 0
+      ? [result.recordset]
+      : [];
+
+  if (recordsets.length > 0) {
+    for (const recordset of recordsets) {
+      console.table(recordset);
+    }
     return undefined;
   }
 
