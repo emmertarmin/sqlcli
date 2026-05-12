@@ -14,6 +14,13 @@ At the moment, only Microsoft SQL Server (mssql) is supported and tested.
 npm install -g sqlcli
 ```
 
+Then run:
+
+```bash
+sqlcli --help
+sqlcli --version
+```
+
 ## Usage
 
 ```text
@@ -27,12 +34,15 @@ Usage:
 Options:
   --help, -h
       Show help
+  --version, -v
+      Show version
 
 Subcommands:
   query - Execute a SQL statement
   connection - Inspect and manage saved connections
   session - Manage the reusable SQL session
   help - Show help
+  version - Show version
 
 Run `sqlcli <command> --help` for command-specific help.
 ```

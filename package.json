@@ -6,8 +6,13 @@
   "repository": "github:emmertarmin/sqlcli",
   "type": "module",
   "bin": {
-    "sqlcli": "./src/index.ts"
+    "sqlcli": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "bun": ">=1.0.0"
   },
@@ -15,7 +20,8 @@
     "dev": "bun --watch run src/index.ts",
     "build": "bun build ./src/index.ts --outdir dist --target bun",
     "tsc": "tsc --noEmit",
-    "test": "bun test"
+    "test": "bun test",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "mssql": "^11.0.1"

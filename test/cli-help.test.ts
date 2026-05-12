@@ -27,6 +27,8 @@ test("sqlcli --help shows top-level help", async () => {
   expect(result.stdout).toContain("query - Execute a SQL statement");
   expect(result.stdout).toContain("connection - Inspect and manage saved connections");
   expect(result.stdout).toContain("session - Manage the reusable SQL session");
+  expect(result.stdout).toContain("version - Show version");
+  expect(result.stdout).toContain("--version, -v");
 });
 
 test("group help is available on subcommands", async () => {
@@ -53,6 +55,20 @@ test("command-specific flags are rejected on other commands", async () => {
 
   expect(result.exitCode).toBe(1);
   expect(result.stderr).toContain("Unknown option: --output");
+});
+
+test("sqlcli --version shows the package version", async () => {
+  const result = await runCli(["--version"]);
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain("sqlcli v0.1.0");
+});
+
+test("sqlcli version shows the package version", async () => {
+  const result = await runCli(["version"]);
+
+  expect(result.exitCode).toBe(0);
+  expect(result.stdout).toContain("sqlcli v0.1.0");
 });
 
 test("unknown commands do not fall through to query", async () => {

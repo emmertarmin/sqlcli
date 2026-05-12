@@ -2,6 +2,7 @@ import { connectionCommand } from "../commands/connections.js";
 import { helpCommand } from "../commands/help.js";
 import { queryCommand } from "../commands/query.js";
 import { sessionCommand } from "../commands/session.js";
+import { versionCommand } from "../commands/version.js";
 import type { CommandDefinition, FlagDefinition } from "./types.js";
 
 export const globalFlags: FlagDefinition[] = [
@@ -11,13 +12,19 @@ export const globalFlags: FlagDefinition[] = [
     type: "boolean",
     description: "Show help",
   },
+  {
+    name: "version",
+    aliases: ["v"],
+    type: "boolean",
+    description: "Show version",
+  },
 ];
 
 export const rootCommand: CommandDefinition = {
   name: "sqlcli",
   summary: "SQL Server CLI",
   description: "Run SQL queries and inspect configured database connections.",
-  subcommands: [queryCommand, connectionCommand, sessionCommand, helpCommand],
+  subcommands: [queryCommand, connectionCommand, sessionCommand, helpCommand, versionCommand],
 };
 
 export function getVisibleSubcommands(command: CommandDefinition): CommandDefinition[] {

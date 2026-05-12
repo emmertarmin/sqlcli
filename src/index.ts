@@ -3,12 +3,19 @@
 import { printCommandHelp, printRootHelp } from "./cli/help.js";
 import { parseCli } from "./cli/parse.js";
 import { ensureConfigDir } from "./config/load-config.js";
+import { printVersion } from "./version.js";
 
 async function main() {
   await ensureConfigDir();
 
   const parsed = parseCli(process.argv.slice(2));
   const wantsHelp = parsed.values.help === true;
+  const wantsVersion = parsed.values.version === true;
+
+  if (wantsVersion) {
+    printVersion();
+    return;
+  }
 
   if (!parsed.command) {
     if (wantsHelp || parsed.positionals.length === 0) {
