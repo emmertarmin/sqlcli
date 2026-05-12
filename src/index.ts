@@ -1,3 +1,5 @@
+#!/usr/bin/env bun
+
 import { printCommandHelp, printRootHelp } from "./cli/help.js";
 import { parseCli } from "./cli/parse.js";
 import { ensureConfigDir } from "./config/load-config.js";

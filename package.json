@@ -1,12 +1,20 @@
 {
   "name": "sqlcli",
   "version": "0.1.0",
-  "private": true,
+  "description": "A personal SQL CLI with current support for Microsoft SQL Server.",
+  "license": "MIT",
+  "repository": "github:emmertarmin/sqlcli",
   "type": "module",
+  "bin": {
+    "sqlcli": "./src/index.ts"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
   "scripts": {
     "dev": "bun --watch run src/index.ts",
     "build": "bun build ./src/index.ts --outdir dist --target bun",
-    "typecheck": "tsc --noEmit",
+    "tsc": "tsc --noEmit",
     "test": "bun test"
   },
   "dependencies": {
