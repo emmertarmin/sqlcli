@@ -11,7 +11,7 @@ At the moment, only Microsoft SQL Server (mssql) is supported and tested.
 ## Install
 
 ```bash
-npm install -g sqlcli
+bun install -g sqlcli
 ```
 
 Then run:
