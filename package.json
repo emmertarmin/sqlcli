@@ -1,12 +1,15 @@
 {
-  "name": "sqlcli",
+  "name": "@emmertarmin/sqlcli",
   "version": "0.1.0",
   "description": "A personal SQL CLI with current support for Microsoft SQL Server.",
   "license": "MIT",
-  "repository": "github:emmertarmin/sqlcli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmertarmin/sqlcli.git"
+  },
   "type": "module",
   "bin": {
-    "sqlcli": "./dist/index.js"
+    "sqlcli": "dist/index.js"
   },
   "files": [
     "dist",
