@@ -7,11 +7,24 @@ function isIpAddress(value: string): boolean {
   return /^\d{1,3}(\.\d{1,3}){3}$/.test(value);
 }
 
-export function toMssqlConfig(connection: ConnectionConfig): sql.config {
-  const trustServerCertificate = connection.options?.trustServerCertificate ?? false;
+function splitNamedInstance(value: string) {
+  const match = /^(.*)\\(.*)$/.exec(value);
+  if (!match) {
+    return { server: value, instanceName: undefined };
+  }
 
   return {
-    server: connection.server,
+    server: match[1],
+    instanceName: match[2],
+  };
+}
+
+export function toMssqlConfig(connection: ConnectionConfig): sql.config {
+  const trustServerCertificate = connection.options?.trustServerCertificate ?? false;
+  const { server, instanceName } = splitNamedInstance(connection.server);
+
+  return {
+    server,
     port: connection.port,
     user: connection.user,
     password: connection.password,
@@ -21,9 +34,8 @@ export function toMssqlConfig(connection: ConnectionConfig): sql.config {
     options: {
       encrypt: connection.options?.encrypt ?? true,
       trustServerCertificate,
-      serverName:
-        connection.options?.serverName ??
-        (trustServerCertificate && isIpAddress(connection.server) ? "localhost" : undefined),
+      instanceName,
+      serverName: connection.options?.serverName ?? (trustServerCertificate && isIpAddress(server) ? "localhost" : undefined),
     },
   };
 }
