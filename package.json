@@ -1,6 +1,6 @@
 {
   "name": "@emmertarmin/sqlcli",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A personal SQL CLI with current support for Microsoft SQL Server.",
   "license": "MIT",
   "repository": {
