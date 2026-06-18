@@ -1,6 +1,5 @@
 export type QueryExecutionResult = {
   ok: true;
-  recordset: Array<Record<string, unknown>>;
   recordsets: Array<Array<Record<string, unknown>>>;
   rowsAffected: number[];
   output: Record<string, unknown>;

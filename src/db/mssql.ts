@@ -47,7 +47,6 @@ export async function executeQuery(pool: sql.ConnectionPool, statement: string):
 
   return {
     ok: true,
-    recordset: (result.recordset ?? []) as Array<Record<string, unknown>>,
     recordsets: (result.recordsets ?? []) as Array<Array<Record<string, unknown>>>,
     rowsAffected: result.rowsAffected,
     output: result.output,
@@ -59,14 +58,11 @@ export function formatQueryResult(result: QueryExecutionResult, outputFormat: Ou
     return JSON.stringify(result, null, 2);
   }
 
-  const recordsets = result.recordsets.length > 0
-    ? result.recordsets
-    : result.recordset.length > 0
-      ? [result.recordset]
-      : [];
-
-  if (recordsets.length > 0) {
-    for (const recordset of recordsets) {
+  if (result.recordsets.length > 0) {
+    for (const [index, recordset] of result.recordsets.entries()) {
+      if (result.recordsets.length > 1) {
+        console.log(`Recordset ${index + 1}:`);
+      }
       console.table(recordset);
     }
     return undefined;
