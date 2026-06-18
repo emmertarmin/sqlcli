@@ -40,7 +40,58 @@ export function toMssqlConfig(connection: ConnectionConfig): sql.config {
   };
 }
 
-export type OutputFormat = "table" | "json";
+export type OutputFormat = "table" | "json" | "csv";
+
+function stringifyCsvValue(value: unknown): string {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  if (value instanceof Uint8Array) {
+    return Buffer.from(value).toString("hex");
+  }
+
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
+
+  return String(value);
+}
+
+function escapeCsvField(value: unknown): string {
+  const text = stringifyCsvValue(value);
+  if (!/[",\r\n]/.test(text) && text.trim() === text) {
+    return text;
+  }
+
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function formatCsvRecordset(recordset: Array<Record<string, unknown>>): string {
+  if (recordset.length === 0) {
+    return "No results";
+  }
+
+  const columns = Object.keys(recordset[0] ?? {});
+  const lines = [
+    columns.map(escapeCsvField).join(","),
+    ...recordset.map((row) => columns.map((column) => escapeCsvField(row[column])).join(",")),
+  ];
+
+  return lines.join("\n");
+}
+
+function formatCsvResult(result: QueryExecutionResult): string {
+  if (result.recordsets.length === 0) {
+    return "No results";
+  }
+
+  return result.recordsets.map(formatCsvRecordset).join("\n\n");
+}
 
 export async function executeQuery(pool: sql.ConnectionPool, statement: string): Promise<QueryExecutionResult> {
   const result = await pool.request().query(statement);
@@ -56,6 +107,10 @@ export async function executeQuery(pool: sql.ConnectionPool, statement: string):
 export function formatQueryResult(result: QueryExecutionResult, outputFormat: OutputFormat = "table") {
   if (outputFormat === "json") {
     return JSON.stringify(result, null, 2);
+  }
+
+  if (outputFormat === "csv") {
+    return formatCsvResult(result);
   }
 
   if (result.recordsets.length > 0) {

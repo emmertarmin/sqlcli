@@ -48,12 +48,13 @@ export const queryCommand: CommandDefinition = {
       type: "string",
       description: "Output format",
       defaultValue: "table",
-      choices: ["table", "json"],
+      choices: ["table", "json", "csv"],
     },
   ],
   examples: [
     'sqlcli query --connection test --sql "SELECT @@VERSION;"',
     'sqlcli query --output json "SELECT 3 AS [three];"',
+    'sqlcli query --output csv "SELECT 3 AS [three];"',
     'echo "SELECT @@VERSION;" | sqlcli query',
   ],
   execute: async ({ values, positionals }) => {
@@ -71,10 +72,10 @@ export const queryCommand: CommandDefinition = {
     const outputValue = values.output;
     const outputFormat: OutputFormat = outputValue === undefined || outputValue === "table"
       ? "table"
-      : outputValue === "json"
-        ? "json"
+      : outputValue === "json" || outputValue === "csv"
+        ? outputValue
         : (() => {
-            throw new Error(`Unsupported --output value: ${String(outputValue)} (expected: table or json)`);
+            throw new Error(`Unsupported --output value: ${String(outputValue)} (expected: table, json, or csv)`);
           })();
 
     if (connectionName) {
