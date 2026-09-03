@@ -20,6 +20,7 @@
     "bun": ">=1.0.0"
   },
   "scripts": {
+    "cli": "bun run src/index.ts",
     "dev": "bun --watch run src/index.ts",
     "build": "bun build ./src/index.ts --outdir dist --target bun",
     "tsc": "tsc --noEmit",

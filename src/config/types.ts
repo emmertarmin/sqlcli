@@ -14,5 +14,6 @@ export type ConnectionConfig = {
 };
 
 export type AppConfig = {
+  version: 1;
   connections: Record<string, ConnectionConfig>;
 };

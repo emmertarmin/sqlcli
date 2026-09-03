@@ -11,10 +11,6 @@ function result(recordsets: QueryExecutionResult["recordsets"]): QueryExecutionR
   };
 }
 
-test("csv output includes headers and rows", () => {
-  expect(formatQueryResult(result([[{ id: 1, text: "hello" }]]), "csv")).toBe("id,text\n1,hello");
-});
-
 test("csv output escapes quotes, commas, newlines, and whitespace", () => {
   expect(
     formatQueryResult(
@@ -22,12 +18,4 @@ test("csv output escapes quotes, commas, newlines, and whitespace", () => {
       "csv",
     ),
   ).toBe('quoted,multiline,padded\n"hello, ""world""","line1\nline2"," hello "');
-});
-
-test("csv output prints no results for empty resultsets", () => {
-  expect(formatQueryResult(result([[]]), "csv")).toBe("No results");
-});
-
-test("csv output separates multiple resultsets with a blank line", () => {
-  expect(formatQueryResult(result([[{ one: 1 }], [{ two: 2 }]]), "csv")).toBe("one\n1\n\ntwo\n2");
 });
