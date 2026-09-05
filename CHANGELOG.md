@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.0
+
+### Added or Changed
+
+- Added interactive and scriptable saved-connection creation with secure password input and configurable connection options.
+- Changed connection listings to use a concise table by default and redacted full details in verbose output.
+- Added versioned config migrations and atomic config writes with private file permissions.
+
 ## v0.1.6
 
 ### Added or Changed
